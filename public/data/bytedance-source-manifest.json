@@ -1,0 +1,22 @@
+{
+  "source_url": "https://jobs.bytedance.com/experienced/position",
+  "source_api": "https://jobs.bytedance.com/api/v1/search/job/posts",
+  "portal_channel": "society",
+  "recruitment_id": "101",
+  "fetched_at": "2026-09-19T06:34:55.487Z",
+  "reported_total": 10000,
+  "requested_pages": 100,
+  "fetched_pages": 100,
+  "failed_pages": [],
+  "raw_rows": 10000,
+  "unique_rows": 10000,
+  "duplicate_rows": 0,
+  "missing_rows": 0,
+  "complete": true,
+  "validation": {
+    "every_row_has_id": true,
+    "every_row_has_title": true,
+    "every_row_has_source_url": true,
+    "unique_id_count_matches_rows": true
+  }
+}
