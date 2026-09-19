@@ -39,6 +39,8 @@ node scripts/build-bytedance-summary.mjs
 pnpm run build
 ```
 
+本次分析改版默认只读取已经保存的快照，不会在页面问答时访问源站；重新抓取是独立的数据管道操作。`public/data/bytedance-social-jobs.json` 是原始清洗快照，分析改版不会覆盖它。
+
 爬虫使用源站公开接口，并按 `post_id` 去重。抓取脚本不会补造岗位；如果分页失败或完整性校验失败，应停止发布。
 
 ## 分析维度
@@ -54,6 +56,20 @@ pnpm run build
 当前“研发 × 经验要求”使用源岗位类别为“研发”的岗位；经验年限来自岗位描述和任职要求中的规则解析。AI / 大模型和电商标签也是基于标题、描述、任职要求的可解释关键词规则，不代表源站官方标签，也不是模型臆测。
 
 源站未公开内部部门字段，因此看板不推断或伪造内部部门名称。
+
+## LLM 问答
+
+`POST /api/ask` 会先在本地快照中筛选证据，再将有限的证据 JSON 发送给 OpenAI-compatible Chat Completions 接口。系统提示要求模型只回答证据中存在的事实；未披露字段不会进入上下文。
+
+复制 `.env.example` 为 `.env.local` 并配置：
+
+```bash
+LLM_API_KEY=your-key
+LLM_MODEL=gpt-4o-mini
+LLM_API_BASE_URL=https://api.openai.com/v1
+```
+
+没有配置 `LLM_API_KEY` 时，接口会返回明确标注的规则摘要，不会伪装成 LLM 结果。
 
 ## 迁移到其他发布平台
 
